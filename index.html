@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <title>NEXUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= ÉCRAN D'ACCÈS ================= -->
+  <section id="gate" class="gate" aria-label="Accès">
+    <div class="gate-bg" id="gateBg" aria-hidden="true"></div>
+    <header class="gate-top"><span class="logo" data-site-name>NEXUS</span></header>
+    <div class="gate-box">
+      <div class="gate-lock" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm-3 8V7a3 3 0 1 1 6 0v3H9Z"/></svg>
+      </div>
+      <h1>Accès réservé</h1>
+      <p class="gate-sub" id="gateStatus">Saisis ton code pour accéder au catalogue.</p>
+      <label class="pin" id="pin">
+        <input id="codeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" aria-label="Code d'accès" />
+        <span class="pin-boxes" id="pinBoxes" aria-hidden="true"></span>
+      </label>
+      <p class="gate-help">Code oublié ? Contacte l'administrateur du site.</p>
+    </div>
+  </section>
+
+  <!-- ================= APPLICATION ================= -->
+  <div id="app" class="app" hidden>
+    <header class="nav" id="nav">
+      <a class="logo" href="#home" data-site-name>NEXUS</a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#home" data-go="home">Accueil</a>
+        <a href="#coulisses" data-go="coulisses">Coulisses</a>
+        <a href="#series" data-go="series">Séries</a>
+        <a href="#a-venir" data-go="a-venir">À venir</a>
+      </nav>
+      <div class="nav-right">
+        <button class="icon-btn" id="openSearch" aria-label="Rechercher (touche /)">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"/></svg>
+        </button>
+        <div class="profile">
+          <button class="avatar-btn" id="profileBtn" aria-haspopup="menu" aria-expanded="false" aria-label="Menu du compte">
+            <span class="avatar"></span>
+            <svg class="caret" viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+          </button>
+          <div class="menu" id="profileMenu" role="menu" hidden>
+            <a role="menuitem" href="#home" data-go="home">Accueil</a>
+            <a role="menuitem" href="#coulisses" data-go="coulisses">Coulisses</a>
+            <a role="menuitem" href="#series" data-go="series">Séries</a>
+            <a role="menuitem" href="#a-venir" data-go="a-venir">À venir</a>
+            <hr />
+            <button role="menuitem" id="lockBtn">Verrouiller la session</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page" data-page="home" aria-label="Accueil"></section>
+      <section class="page" data-page="coulisses" aria-label="Coulisses"></section>
+      <section class="page" data-page="series" aria-label="Séries"></section>
+      <section class="page" data-page="a-venir" aria-label="À venir"></section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="#home" data-go="home">Accueil</a>
+        <a href="#coulisses" data-go="coulisses">Coulisses</a>
+        <a href="#series" data-go="series">Séries</a>
+        <a href="#a-venir" data-go="a-venir">À venir</a>
+      </div>
+      <p>© <span id="year"></span> <span data-site-name>NEXUS</span>. Tous droits réservés.</p>
+    </footer>
+  </div>
+
+  <!-- Fiche vidéo -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="modal-media" id="modalMedia"></div>
+      <div class="modal-body">
+        <div class="modal-main">
+          <p class="meta" id="modalMeta"></p>
+          <h2 id="modalTitle"></h2>
+          <p id="modalDesc"></p>
+        </div>
+        <div class="modal-more">
+          <h3 id="modalMore">Plus de vidéos</h3>
+          <div class="modal-list" id="modalList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lecteur plein écran -->
+  <div class="player-full" id="playerFull" hidden>
+    <button class="player-back" id="playerBack" aria-label="Retour">
+      <svg viewBox="0 0 24 24" width="28" height="28"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+      <span id="playerTitle"></span>
+    </button>
+    <button class="player-next" id="playerNext" hidden>
+      <span>Épisode suivant</span><b id="playerNextTitle"></b>
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M5 4.8v14.4a.8.8 0 0 0 1.2.7L16 13.6V19a1 1 0 0 0 2 0V5a1 1 0 0 0-2 0v5.4L6.2 4.1A.8.8 0 0 0 5 4.8Z"/></svg>
+    </button>
+    <div class="player-frame" id="playerFrame"></div>
+  </div>
+
+  <!-- Recherche -->
+  <div class="search" id="search" hidden>
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"/></svg>
+      <input id="searchInput" placeholder="Titres, éditions, pages…" autocomplete="off" />
+      <button class="search-close" id="searchClose">Fermer</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
